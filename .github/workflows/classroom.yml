@@ -22,7 +22,6 @@ jobs:
         Склади звіт у двох розділах:
         Коректність коду - перерахуй знайдені помилки або вкажи, що код працює правильно.
         Стиль коду - перерахуй порушення стилю, запропонуй поліпшення.
-        Не треба писати нічого крім відповіді. Не треба нічого пропонувати.
         Оцінити роботу загалом за 100 бальною оцінкою.
 
     steps:
@@ -36,27 +35,27 @@ jobs:
 
       # 1) Compilation
       - name: Compile (skip tests)
-        run: mvn -B -ntp -DskipTests=true clean package
+        run: mvn -B -ntp -DskipTests=true -f pom.xml clean package
 
       # 2) Unit tests
       - name: Run Unit Tests
-        run: mvn -B -ntp test
+        run: mvn -B -ntp -f pom.xml test
 
       # 3) Checkstyle
       - name: Run Checkstyle
-        run: mvn -B -ntp checkstyle:checkstyle || true
+        run: mvn -B -ntp -f pom.xml checkstyle:checkstyle || true
 
       # 4) PMD
       - name: Run PMD
-        run: mvn -B -ntp pmd:check || true
+        run: mvn -B -ntp -f pom.xml pmd:check || true
 
       # 5) SpotBugs
       - name: Run SpotBugs
-        run: mvn -B -ntp com.github.spotbugs:spotbugs-maven-plugin:check || true
+        run: mvn -B -ntp -f pom.xml com.github.spotbugs:spotbugs-maven-plugin:check || true
 
       # 6) Spotless (soft check)
       - name: Verify Code Formatting (Spotless, soft)
-        run: mvn -B -ntp spotless:check || echo "⚠️ Spotless found formatting issues (ignored)"
+        run: mvn -B -ntp -f pom.xml spotless:check || echo "⚠️ Spotless found formatting issues (ignored)"
 
       # ==== ChatGPT: review all files in package ua.opnu ====
       - name: Collect ua.opnu Java files
